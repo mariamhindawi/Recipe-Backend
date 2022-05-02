@@ -20,13 +20,6 @@ router.post('/recipes', async (req, res)=> {
         res.status(404).send("Please enter a recipe title");
         return;
     }
-    var newImage = null;
-    if (req.body.recipe_image){
-        newImage =new Image({
-          recipe_image,
-        });
-    }
-
     const foundRecipe = await recipe_model.findOne({ recipe_title: req.body.recipe_title});
     if (foundRecipe!==null){
         res.status(422).send("This recipe already exists");
@@ -35,7 +28,7 @@ router.post('/recipes', async (req, res)=> {
     const new_recipe = new recipe_model({
     recipe_title: req.body.recipe_title,
     recipe_ingredients: req.body.recipe_ingredients,
-    recipe_image:  newImage,
+    recipe_image:  req.body.recipe_image,
     recipe_steps: req.body.recipe_steps,
     recipe_tags: req.body.recipe_tags
     });
