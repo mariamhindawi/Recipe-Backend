@@ -15,14 +15,16 @@ const upload = multer({storage: storage});
 
 //add recipe
 
-router.post('/recipes',upload.single('recipe_image'), async (req, res)=> {
+router.post('/recipes', async (req, res)=> {
     if (! req.body.recipe_title){
         res.status(404).send("Please enter a recipe title");
         return;
     }
-    var image = null;
-    if (req.file){
-        image = req.file.originalname;
+    var newImage = null;
+    if (req.body.recipe_image){
+        newImage =new Image({
+          recipe_image,
+        });
     }
 
     const foundRecipe = await recipe_model.findOne({ recipe_title: req.body.recipe_title});
@@ -33,7 +35,7 @@ router.post('/recipes',upload.single('recipe_image'), async (req, res)=> {
     const new_recipe = new recipe_model({
     recipe_title: req.body.recipe_title,
     recipe_ingredients: req.body.recipe_ingredients,
-    recipe_image:  image,
+    recipe_image:  newImage,
     recipe_steps: req.body.recipe_steps,
     recipe_tags: req.body.recipe_tags
     });
@@ -71,7 +73,6 @@ router.get('/recipes/:recipe_title', async (req, res)=> {
 
 router.put('/recipes/:id',upload.single('recipe_image'), async (req, res)=> {
     var recipe = await recipe_model.findOne({ _id: req.params.id });
-    var new_recipe;
         if (!recipe) {
             res.status(404).send("Recipe not found");
             return;
@@ -85,8 +86,7 @@ router.put('/recipes/:id',upload.single('recipe_image'), async (req, res)=> {
             res.status(409).send("A recipe with this title already exists");
             return;
         }
-        if(!req.body.recipe_title){
-           newRecipe = await recipe_model.replaceOne(
+            await recipe_model.replaceOne(
             { _id: req.params.id },
             { recipe_title: req.body.recipe_title,
               recipe_ingredients :  req.body.recipe_ingredients,
@@ -94,17 +94,8 @@ router.put('/recipes/:id',upload.single('recipe_image'), async (req, res)=> {
               recipe_image:image
              }
           )
-        }
-        else{
-           newRecipe = await recipe_model.replaceOne(
-            { _id: req.params.id },
-            { recipe_title: req.body.recipe_title,
-              recipe_ingredients :  req.body.recipe_ingredients,
-              recipe_steps: req.body.recipe_steps,
-              recipe_image:image
-             }
-          )
-        }
+
+
 })
 
 //delete recipe
