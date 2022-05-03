@@ -1,17 +1,6 @@
 const express = require('express')
 const router = express.Router()
 const recipe_model = require('../models/recipe.model')
-const multer = require('multer')
-const storage = multer.diskStorage({
-  destination:(req, file, callback)=> {
-    callback(null, "../frontend/public/uploads");
-  },
-  filename:(req, file, callback)=>{
-    callback(null, file.originalname);
-  }
-})
-
-const upload = multer({storage: storage});
 
 //add recipe
 
@@ -30,7 +19,6 @@ router.post('/recipes', async (req, res)=> {
     recipe_ingredients: req.body.recipe_ingredients,
     recipe_image:  req.body.recipe_image,
     recipe_steps: req.body.recipe_steps,
-    recipe_tags: req.body.recipe_tags
     });
 
     try {
