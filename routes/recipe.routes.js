@@ -52,7 +52,7 @@ router.get('/recipes/:recipe_title', async (req, res)=> {
 
 //update recipe
 
-router.put('/recipes/:id', async (req, res)=> {
+router.post('/recipes/:id', async (req, res)=> {
     var recipe = await recipe_model.findOne({ _id: req.params.id });
         if (!recipe) {
             res.status(404).send("Recipe not found");
