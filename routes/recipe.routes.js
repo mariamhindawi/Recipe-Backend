@@ -59,18 +59,24 @@ router.post('/recipes/:id', async (req, res)=> {
             return;
         }
         const otherRecipe = await recipe_model.findOne({ recipe_title: req.body.recipe_title });
-        if(otherRecipe._id ===recipe._id){
+        if(otherRecipe._id !==recipe._id){
             res.status(409).send("A recipe with this title already exists");
             return;
         }
+        try{
             await recipe_model.replaceOne(
-            { _id: req.params.id },
-            { recipe_title: req.body.recipe_title,
-              recipe_ingredients :  req.body.recipe_ingredients,
-              recipe_steps: req.body.recipe_steps,
-              recipe_image:req.body.recipe_image
-             }
-          )
+                { _id: req.params.id },
+                { recipe_title: req.body.recipe_title,
+                  recipe_ingredients :  req.body.recipe_ingredients,
+                  recipe_steps: req.body.recipe_steps,
+                  recipe_image:req.body.recipe_image
+                 }
+              )
+        }
+        catch (error) {
+            res.status(500).send(error.message);
+          }
+           
 
 
 })
