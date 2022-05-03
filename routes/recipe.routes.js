@@ -52,15 +52,11 @@ router.get('/recipes/:recipe_title', async (req, res)=> {
 
 //update recipe
 
-router.put('/recipes/:id',upload.single('recipe_image'), async (req, res)=> {
+router.put('/recipes/:id', async (req, res)=> {
     var recipe = await recipe_model.findOne({ _id: req.params.id });
         if (!recipe) {
             res.status(404).send("Recipe not found");
             return;
-        }
-        var image = null;
-        if (req.file){
-            image = req.file.originalname;
         }
         const otherRecipe = await recipe_model.findOne({ recipe_title: req.body.recipe_title });
         if(otherRecipe){
@@ -72,7 +68,7 @@ router.put('/recipes/:id',upload.single('recipe_image'), async (req, res)=> {
             { recipe_title: req.body.recipe_title,
               recipe_ingredients :  req.body.recipe_ingredients,
               recipe_steps: req.body.recipe_steps,
-              recipe_image:image
+              recipe_image:req.body.recipe_image
              }
           )
 
