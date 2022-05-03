@@ -10,7 +10,7 @@ require('dotenv').config()
 const router = require('./routes/recipe.routes');
 
 const corsOptions = {
-    origin: 'https://cool-recipe-app.netlify.app/',
+    origin: 'https://cool-recipe-app.netlify.app',
     methods: "GET,PUT,POST,DELETE,OPTIONS",
     credentials: true,
     maxAge: 5,
