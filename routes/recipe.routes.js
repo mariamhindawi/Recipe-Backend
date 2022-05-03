@@ -72,6 +72,7 @@ router.post('/recipes/:id', async (req, res)=> {
                   recipe_image:req.body.recipe_image
                  }
               )
+              res.send("Recipe updated successfully");
         }
         catch (error) {
             res.status(500).send(error.message);
