@@ -59,7 +59,7 @@ router.put('/recipes/:id', async (req, res)=> {
             return;
         }
         const otherRecipe = await recipe_model.findOne({ recipe_title: req.body.recipe_title });
-        if(otherRecipe){
+        if(otherRecipe._id !==recipe._id){
             res.status(409).send("A recipe with this title already exists");
             return;
         }
